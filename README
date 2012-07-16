@@ -1,0 +1,136 @@
+=== DESCRIPTION ==============================================================
+
+Loomiere is a highly scalable and secure HTTP a/v streaming server able to
+serve a massive amount of streaming requests simultaneously using commonly
+available (commodity) hardware. It makes use of a bandwidth conservation
+algorithm designed to provide smooth playback, which, together with many
+other features, cuts down streaming production costs considerably. See the
+features described further down for more detailed information.
+
+
+
+=== TERMS ====================================================================
+
+This software is neither free nor open-source. It is made available under the
+Paloş & Sons Loomiere End-User License. See the license text provided in the
+LICENSE file or visit the product website (http://loomiere.com). If you come
+across a violation of the licensing terms or if the LICENSE file is missing,
+please contact us at office@palos.ro. Thank you!
+
+Copyright (C)2010 Valeriu Paloş. All rights reserved.
+
+
+
+=== FEATURES =================================================================
+
+- Able to serve *massive* amounts of clients simultaneously.
+  See: http://loomiere.com/statistics for demos with real-life data.
+
+- Very lightweight, built for maximum throughput on multi-core machines and
+  specifically designed to completely eliminate software bottlenecks (e.g. it
+  should allow you use your hardware components to the full physical extent).
+
+- Strong bandwidth conservation that uses a smart and easy to configure
+  throttling system which is VBR-aware (variable bitrate) for smooth playback.
+
+- High-speed memory-based cache to accelerate request responses.
+
+- URL Rewriting/Redirection:
+  Support for URL routing using regular expressions or even custom Lua scrips,
+  making it very easy to integrate with (or replace) another existing system.
+
+- Virtual Hosting:
+  Name-based virtual hosting support with regular expression matching.
+
+- Monitoring:
+  Detailed statistics published for RRD-based tools (e.g. Munin).
+
+
+
+=== REQUIRED =================================================================
+
+- Lua(5.1) ............ http://www.lua.org/
+- Luarocks ............ http://www.luarocks.org/
+    - alt-getopt ...... http://luaforge.net/projects/alt-getopt/
+    - lpeg ............ http://www.inf.puc-rio.br/~roberto/lpeg/lpeg.html
+    - luabitop ........ http://bitop.luajit.org/
+    - lua-ev .......... http://github.com/brimworks/lua-ev
+    - lrexlib-pcre .... http://lrexlib.luaforge.net/
+    - luasocket ....... http://w3.impa.br/~diego/software/luasocket/
+- LibEV ............... http://software.schmorp.de/pkg/libev.html
+- PCRE ................ http://www.pcre.org
+- TokyoCabinet ........ http://fallabs.com/tokyocabinet/
+
+
+
+=== COMPILE ==================================================================
+
+Currently I only compiled this on Debian and Ubunutu (other distros should work
+with minor editing of makefiles). Just run:
+
+$ make -f makefile.ubuntu
+
+
+
+=== SUGGESTED ================================================================
+
+To run Loomiere in production you should use a service supervisor such as:
+
+- runit ............... http://smarden.org/runit/index.html
+
+
+
+=== CHANGE LOG ===============================================================
+
+Loomiere 2.0.1-beta - 2011-12-07
+- Minor bug fixes and improvements.
+
+Loomiere 2.0-beta - 2010-08-15
+- First working release of Loomiere (2.0).
+
+
+
+=== IDEAS ====================================================================
+
+- Anti-DOS Prevention System:
+  Based on the number of connections per second coming from a single IP.
+
+- Whitelist/Blacklist:
+  Banning system based on a list of IPs and/or referrer domains.
+
+- Throttling Hinting: adaptive throttling based on hint commands sent by
+  the player during playtime. This interprets calibration hints from the
+  video-player during playtime and also enables streaming to be suspended while
+  the player is paused (but only if there is enough bandwidth to ensure smooth
+  playback on resume).
+
+- Controlled Client Identity:
+  Content protection based on token exchange (via custom Lua script). This
+  will deny streaming everywhere except in your custom-compiled players and
+  also will prevent others to download your movies straight from the server.
+
+- Controlled Domain Identity:
+  Serve certain media only when the player comes from specific domains.
+  This will deny streaming everywhere except in video-players coming from
+  specific domains.
+
+- Geo-location:
+  Controlled access based on geo-location information (via GeoIP). This can
+  currently be achieved by using GeoIP from the options.lua file (in Lua)
+  but I guess it should be nicer.
+
+- Loomiere must run as user 'loomiere' (not as 'root').
+
+- Re-organized host definition in options.lua.
+
+- Add ability to respond with HTTP error codes (302, 404, 500 etc.)
+  straight from the host's URL routing table (in options.lua).
+
+- Add (optional) HTTP caching headers (for selected types of files).
+
+- Add '?terse=true|false' parameter to the '/monitor' URL.
+
+- Add '/space?path=/var/www' control parameter to check disk usage.
+
+- Add multiple sandbox paths for each host, with individual statistics.
+

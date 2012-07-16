@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#
+# The Loomiere Project (http://loomiere.com).
+# This is software is neither free nor open-source! Read the LICENSE file!
+# Copyright (C)2010 Valeriu Paloş (valeriu@palos.ro). All rights reserved!
+#
+
+# Options path.
+options="/etc/loomiere/options.lua"
+
+# Start server.
+exec loomiere --options "$options" 2>&1

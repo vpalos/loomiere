@@ -1,0 +1,79 @@
+#
+# Loomiere makefile: common definitions.
+# By this point, the distribution-specific
+# makefile(s) should already be loaded!
+#
+
+#
+# Installation root.
+#
+PREFIX      = /usr/local
+
+#
+# Development.
+#
+DEV         = ./dev
+L2C_BIN     = $(DEV)/lua2c.lua
+B2C_BIN     = $(DEV)/bin2c.lua
+
+#
+# Sources.
+#
+SRC         = ./src
+LFILES     := $(patsubst %.lua,%.h,$(wildcard $(SRC)/*.lua))
+IFILES     := $(patsubst %.ico,%.h,$(wildcard $(SRC)/*.ico))
+CFILES     := $(wildcard $(SRC)/*.c)
+HFILES     := $(patsubst %.c,%.h,$(CFILES))
+
+#
+# Release version.
+#
+DFLAGS      = -s
+L2C_FLAGS   = -ceu
+
+#
+# Debug version.
+#
+debug: override DFLAGS    = -g -DDEBUG
+debug: override L2C_FLAGS = -u
+
+#
+# Targets.
+#
+all: build
+
+debug: build
+
+force:
+	@ true
+
+build: $(LFILES) $(IFILES) $(CFILES) $(HFILES)
+	@ echo -n "loomiere... "
+	 $(CC) $(CFILES) $(DFLAGS) $(CFLAGS) $(LFLAGS) $(LUA_FLAGS) -o loomiere
+	@ echo "OK"
+
+$(LFILES): $(SRC)/%.h: $(SRC)/%.lua force
+	@ echo -n "$<... "
+	 $(LUA_BIN) $(L2C_BIN) $(L2C_FLAGS) $< > $@
+	@ echo "OK"
+
+$(IFILES): $(SRC)/%.h: $(SRC)/%.ico force
+	@ echo -n "$<... "
+	 $(LUA_BIN) $(B2C_BIN) $< > $@
+	@ echo "OK"
+
+clean:
+	rm -f loomiere
+	rm -rf $(LFILES)
+	rm -rf $(IFILES)
+
+install: build
+	install -m 0755 loomiere $(PREFIX)/bin
+	#install -d /etc/loomiere
+	#install -m 0644 options.lua /etc/loomiere/options.lua
+
+uninstall: clean
+	rm -rf $(PREFIX)/bin/loomiere
+	#rm -rf /etc/loomiere
+
+.PHONY: all debug force build clean install uninstall

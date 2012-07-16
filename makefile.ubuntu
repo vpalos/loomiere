@@ -1,0 +1,20 @@
+#
+# Loomiere makefile: Ubuntu 10.04 LTS (lucid).
+#
+
+#
+# Compilation flags.
+#
+CFLAGS      = -O2 -DCACHE_LINE_SIZE=$(shell getconf LEVEL1_DCACHE_LINESIZE)
+LFLAGS      = -pthread -lev -ltokyocabinet libtokyocabinet.a
+
+#
+# Lua flags.
+#
+LUA_BIN     = /usr/bin/env lua
+LUA_FLAGS   = $(shell pkg-config 'lua5.1' --cflags --libs)
+
+#
+# Common definitions.
+#
+include makefile.common
