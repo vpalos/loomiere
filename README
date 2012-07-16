@@ -11,12 +11,7 @@ features described further down for more detailed information.
 
 === TERMS ====================================================================
 
-This software is neither free nor open-source. It is made available under the
-Paloş & Sons Loomiere End-User License. See the license text provided in the
-LICENSE file or visit the product website (http://loomiere.com). If you come
-across a violation of the licensing terms or if the LICENSE file is missing,
-please contact us at office@palos.ro. Thank you!
-
+See the LICENSE file!
 Copyright (C)2010 Valeriu Paloş. All rights reserved.
 
 
@@ -24,7 +19,8 @@ Copyright (C)2010 Valeriu Paloş. All rights reserved.
 === FEATURES =================================================================
 
 - Able to serve *massive* amounts of clients simultaneously.
-  See: http://loomiere.com/statistics for demos with real-life data.
+  Visit http://valeriu.palos.ro/980/loomiere-2-0-teaser-reloaded/ for some
+  real-life data.
 
 - Very lightweight, built for maximum throughput on multi-core machines and
   specifically designed to completely eliminate software bottlenecks (e.g. it
@@ -43,7 +39,7 @@ Copyright (C)2010 Valeriu Paloş. All rights reserved.
   Name-based virtual hosting support with regular expression matching.
 
 - Monitoring:
-  Detailed statistics published for RRD-based tools (e.g. Munin).
+  Detailed statistics published on separate port at "/monitor" URL.
 
 
 
